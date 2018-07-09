@@ -1,0 +1,204 @@
+﻿<Page
+    x:Class="Calculate_Matrix.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Calculate_Matrix"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource SystemControlAcrylicWindowBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <CommandBar x:Name="MainAppbar" DefaultLabelPosition="Right" Grid.Row="0" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left">
+            <AppBarButton x:Name="Left" Content="A: 2X2" Style="{StaticResource AppBarButtonRevealStyle}">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="AFlyout" Opening="AFlyout_Opening">
+                        <StackPanel Orientation="Vertical">
+                            <Slider Header="Row" Width="300" Minimum="1" Maximum="5" StepFrequency="1" TickFrequency="1" TickPlacement="Outside" x:Name="ARow" Margin="6,6,6,6"/>
+                            <Slider Header="Column" Width="300" Minimum="1" Maximum="5" StepFrequency="1" TickFrequency="1" TickPlacement="Outside" x:Name="AColumn" Margin="6,6,6,6"/>
+                            <Button x:Name="ARCAppply" Margin="6,6,6,6" Content="Apply" Click="ARCAppply_Click"/>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton x:Name="Right" Content="B: 2X2" Style="{StaticResource AppBarButtonRevealStyle}">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="BFlyout" Opening="BFlyout_Opening">
+                        <StackPanel Orientation="Vertical">
+                            <Slider Header="Row" Width="300" Minimum="1" Maximum="5" StepFrequency="1" TickFrequency="1" TickPlacement="Outside" x:Name="BRow" Margin="6,6,6,6"/>
+                            <Slider Header="Column" Width="300" Minimum="1" Maximum="5" StepFrequency="1" TickFrequency="1" TickPlacement="Outside" x:Name="BColumn" Margin="6,6,6,6"/>
+                            <Button x:Name="BRCAppply" Margin="6,6,6,6" Content="Apply" Click="BRCAppply_Click"/>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarSeparator/>
+            <AppBarButton x:Name="Switch" Label="Switch" Icon="Switch" Click="Switch_Click" Style="{StaticResource AppBarButtonRevealStyle}" IsEnabled="False"/>
+            <AppBarButton x:Name="AllClear" Label="Clear All" Style="{StaticResource AppBarButtonRevealStyle}" Click="AllClear_Click"/>
+            <AppBarButton x:Name="AClear" Label="Clear A" Style="{StaticResource AppBarButtonRevealStyle}" Click="AClear_Click"/>
+            <AppBarButton x:Name="BClear" Label="Clear B" Style="{StaticResource AppBarButtonRevealStyle}" Click="BClear_Click"/>
+            <AppBarButton x:Name="OutputClear" Label="Clear Output" Style="{StaticResource AppBarButtonRevealStyle}" Click="OutputClear_Click"/>
+        </CommandBar>
+        <CommandBar x:Name="FunctionAppbar" DefaultLabelPosition="Right" Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch">
+            <AppBarButton x:Name="Plus" Label="A+B" Click="Plus_Click" Icon="Add" Style="{StaticResource AppBarButtonRevealStyle}"/>
+            <AppBarButton x:Name="Minus" Label="A-B" Click="Minus_Click" Icon="Remove" Style="{StaticResource AppBarButtonRevealStyle}"/>
+            <AppBarButton x:Name="Multiple" Label="AxB" Click="Multiple_Click" Icon="Cancel" Style="{StaticResource AppBarButtonRevealStyle}"/>
+            <AppBarButton x:Name="InverseA" Content="Inverse A" Click="InverseA_Click" Style="{StaticResource AppBarButtonRevealStyle}" IsEnabled="False"/>
+            <AppBarButton x:Name="InverseB" Content="Inverse B" Click="InverseB_Click" Style="{StaticResource AppBarButtonRevealStyle}" IsEnabled="False"/>
+        </CommandBar>
+        <Grid x:Name="MatrixGrid" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="MatrixAGrid" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" x:Name="A" Text="A" FontSize="24" TextAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="A11"/>
+                <TextBox Grid.Row="1" Grid.Column="2" x:Name="A12"/>
+                <TextBox Grid.Row="1" Grid.Column="3" x:Name="A13" Visibility="Collapsed"/>
+                <TextBox Grid.Row="1" Grid.Column="4" x:Name="A14" Visibility="Collapsed"/>
+                <TextBox Grid.Row="1" Grid.Column="5" x:Name="A15" Visibility="Collapsed"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="A21"/>
+                <TextBox Grid.Row="2" Grid.Column="2" x:Name="A22"/>
+                <TextBox Grid.Row="2" Grid.Column="3" x:Name="A23" Visibility="Collapsed"/>
+                <TextBox Grid.Row="2" Grid.Column="4" x:Name="A24" Visibility="Collapsed"/>
+                <TextBox Grid.Row="2" Grid.Column="5" x:Name="A25" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="A31" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="2" x:Name="A32" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="3" x:Name="A33" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="4" x:Name="A34" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="5" x:Name="A35" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="1" x:Name="A41" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="2" x:Name="A42" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="3" x:Name="A43" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="4" x:Name="A44" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="5" x:Name="A45" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="1" x:Name="A51" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="2" x:Name="A52" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="3" x:Name="A53" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="4" x:Name="A54" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="5" x:Name="A55" Visibility="Collapsed"/>
+            </Grid>
+            <Grid x:Name="MatrixBGrid" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" x:Name="B" Text="B" FontSize="24" TextAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="B11"/>
+                <TextBox Grid.Row="1" Grid.Column="2" x:Name="B12"/>
+                <TextBox Grid.Row="1" Grid.Column="3" x:Name="B13" Visibility="Collapsed"/>
+                <TextBox Grid.Row="1" Grid.Column="4" x:Name="B14" Visibility="Collapsed"/>
+                <TextBox Grid.Row="1" Grid.Column="5" x:Name="B15" Visibility="Collapsed"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="B21"/>
+                <TextBox Grid.Row="2" Grid.Column="2" x:Name="B22"/>
+                <TextBox Grid.Row="2" Grid.Column="3" x:Name="B23" Visibility="Collapsed"/>
+                <TextBox Grid.Row="2" Grid.Column="4" x:Name="B24" Visibility="Collapsed"/>
+                <TextBox Grid.Row="2" Grid.Column="5" x:Name="B25" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="B31" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="2" x:Name="B32" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="3" x:Name="B33" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="4" x:Name="B34" Visibility="Collapsed"/>
+                <TextBox Grid.Row="3" Grid.Column="5" x:Name="B35" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="1" x:Name="B41" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="2" x:Name="B42" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="3" x:Name="B43" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="4" x:Name="B44" Visibility="Collapsed"/>
+                <TextBox Grid.Row="4" Grid.Column="5" x:Name="B45" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="1" x:Name="B51" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="2" x:Name="B52" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="3" x:Name="B53" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="4" x:Name="B54" Visibility="Collapsed"/>
+                <TextBox Grid.Row="5" Grid.Column="5" x:Name="B55" Visibility="Collapsed"/>
+            </Grid>
+        </Grid>
+        <Grid x:Name="MatrixOutputGrid" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="MatrixOutput" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" x:Name="O" Text="Output" FontSize="24" TextAlignment="Center"/>
+                <TextBox Grid.Row="1" Grid.Column="1" x:Name="O11" IsReadOnly="True"/>
+                <TextBox Grid.Row="1" Grid.Column="2" x:Name="O12" IsReadOnly="True"/>
+                <TextBox Grid.Row="1" Grid.Column="3" x:Name="O13" IsReadOnly="True"/>
+                <TextBox Grid.Row="1" Grid.Column="4" x:Name="O14" IsReadOnly="True"/>
+                <TextBox Grid.Row="1" Grid.Column="5" x:Name="O15" IsReadOnly="True"/>
+                <TextBox Grid.Row="2" Grid.Column="1" x:Name="O21" IsReadOnly="True"/>
+                <TextBox Grid.Row="2" Grid.Column="2" x:Name="O22" IsReadOnly="True"/>
+                <TextBox Grid.Row="2" Grid.Column="3" x:Name="O23" IsReadOnly="True"/>
+                <TextBox Grid.Row="2" Grid.Column="4" x:Name="O24" IsReadOnly="True"/>
+                <TextBox Grid.Row="2" Grid.Column="5" x:Name="O25" IsReadOnly="True"/>
+                <TextBox Grid.Row="3" Grid.Column="1" x:Name="O31" IsReadOnly="True"/>
+                <TextBox Grid.Row="3" Grid.Column="2" x:Name="O32" IsReadOnly="True"/>
+                <TextBox Grid.Row="3" Grid.Column="3" x:Name="O33" IsReadOnly="True"/>
+                <TextBox Grid.Row="3" Grid.Column="4" x:Name="O34" IsReadOnly="True"/>
+                <TextBox Grid.Row="3" Grid.Column="5" x:Name="O35" IsReadOnly="True"/>
+                <TextBox Grid.Row="4" Grid.Column="1" x:Name="O41" IsReadOnly="True"/>
+                <TextBox Grid.Row="4" Grid.Column="2" x:Name="O42" IsReadOnly="True"/>
+                <TextBox Grid.Row="4" Grid.Column="3" x:Name="O43" IsReadOnly="True"/>
+                <TextBox Grid.Row="4" Grid.Column="4" x:Name="O44" IsReadOnly="True"/>
+                <TextBox Grid.Row="4" Grid.Column="5" x:Name="O45" IsReadOnly="True"/>
+                <TextBox Grid.Row="5" Grid.Column="1" x:Name="O51" IsReadOnly="True"/>
+                <TextBox Grid.Row="5" Grid.Column="2" x:Name="O52" IsReadOnly="True"/>
+                <TextBox Grid.Row="5" Grid.Column="3" x:Name="O53" IsReadOnly="True"/>
+                <TextBox Grid.Row="5" Grid.Column="4" x:Name="O54" IsReadOnly="True"/>
+                <TextBox Grid.Row="5" Grid.Column="5" x:Name="O55" IsReadOnly="True"/>
+            </Grid>
+            <StackPanel x:Name="OutputOption" Grid.Column="1">
+                <TextBlock Grid.Row="0" x:Name="OuputTextblock" Text="" FontSize="24"/>
+                <Button Grid.Row="1" x:Name="ApplyToA" Content="Apply to A" Click="ApplyToA_Click" Margin="6,6,6,6" Style="{StaticResource ButtonRevealStyle}"/>
+                <Button Grid.Row="2" x:Name="ApplyToB" Content="Apply to B" Click="ApplyToB_Click" Margin="6,6,6,6" Style="{StaticResource ButtonRevealStyle}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
